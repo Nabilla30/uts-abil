@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Penjualan Barang</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background: url('latar.jfif') no-repeat center center fixed;
+            background-size: cover;
+            color: black; 
+        h1 {
+            color: black; 
+        }
+        label, select, input, button {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.9); 
+            color: black; 
+            border-radius: 5px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: rgba(255, 255, 255, 0.9);
+            margin: 5px 0;
+            padding: 10px;
+            border-left: 5px solid #007bff;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            color: black; 
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>  Abil Store Notes</h1>
+    
+    <h3>1. Mengentri data produk/barang</h3>
+    <label for="kategori-barang">Kategori Barang:</label>
+    <select id="kategori-barang">
+        <option value="sembako">Sembako</option>
+        <option value="makanan">Makanan</option>
+        <option value="minuman">Minuman</option>
+        <option value="alat-rumah-tangga">Alat Rumah Tangga</option>
+    </select>
+    
+    <label for="barang">Pilih Barang:</label>
+    <select id="barang">
+    </select>
+    
+    <label for="stok-barang">Stok Barang:</label>
+    <input type="number" id="stok-barang" placeholder="Masukkan stok">
+    <button onclick="tambahBarang()">Tambahkan Barang</button>
+    
+    <h3>Daftar Barang:</h3>
+    <ul id="daftar-barang"></ul>
+
+    <script>
+        const barangKategori = {
+            sembako: ["Beras - Rp12.000/kg", "Gula - Rp14.000/kg", "Minyak Goreng - Rp20.000/liter","Tepung Terigu (1 kg) - Rp14.000","Telur Ayam (1 kg) - Rp30.000"],
+            makanan: ["Roti - Rp15.000", "Biskuit - Rp10.000", "Mie Instan - Rp3.500","Frozen Food - Rp25.000" ,"Biskuit Kalengan - Rp30.000"],
+            minuman: ["Teh - Rp8.000", "Kopi - Rp12.000", "Jus - Rp15.000"],
+            "alat-rumah-tangga": ["Sapu - Rp25.000", "Pel - Rp30.000", "Sabun Cuci - Rp10.000"]
+        };
+        
+        document.getElementById("kategori-barang").addEventListener("change", function() {
+            const kategori = this.value;
+            const barangSelect = document.getElementById("barang");
+            barangSelect.innerHTML = "";
+            barangKategori[kategori].forEach(item => {
+                const option = document.createElement("option");
+                option.textContent = item;
+                barangSelect.appendChild(option);
+            });
+        });
+        
+        function tambahBarang() {
+            const barang = document.getElementById("barang").value;
+            const stok = document.getElementById("stok-barang").value;
+            if (barang && stok) {
+                const daftarBarang = document.getElementById("daftar-barang");
+                const li = document.createElement("li");
+                li.textContent = `${barang} - Stok: ${stok}`;
+                daftarBarang.appendChild(li);
+            } else {
+                alert("Harap masukkan semua data!");
+            }
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Pelanggan - Abil's Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+        }
+        label, select, input, button {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin: 5px 0;
+            padding: 10px;
+            border-left: 5px solid #007bff;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Pelanggan - Abil's Store</h1>
+    
+    <h3>2. Mengentri data pelanggan</h3>
+    <label for="nama-pelanggan">Nama Pelanggan:</label>
+    <input type="text" id="nama-pelanggan" placeholder="Masukkan nama pelanggan">
+    
+    <label for="jenis-pelanggan">Jenis Pelanggan:</label>
+    <select id="jenis-pelanggan">
+        <option>Member</option>
+        <option>Non-Member</option>
+    </select>
+    
+    <label for="kontak-pelanggan">Kontak Pelanggan:</label>
+    <input type="text" id="kontak-pelanggan" placeholder="Masukkan nomor kontak">
+    
+    <button onclick="tambahPelanggan()">Tambahkan Pelanggan</button>
+    
+    <h3>Daftar Pelanggan:</h3>
+    <ul id="daftar-pelanggan"></ul>
+
+    <script>
+        function tambahPelanggan() {
+            const nama = document.getElementById("nama-pelanggan").value.trim();
+            const jenis = document.getElementById("jenis-pelanggan").value;
+            const kontak = document.getElementById("kontak-pelanggan").value.trim();
+
+            if (nama === "" || kontak === "") {
+                alert("Harap masukkan nama dan kontak pelanggan!");
+                return;
+            }
+
+            const daftarPelanggan = document.getElementById("daftar-pelanggan");
+            const listItem = document.createElement("li");
+            listItem.textContent = `${nama} - ${jenis} - ${kontak}`;
+            daftarPelanggan.appendChild(listItem);
+
+            // Kosongkan input setelah ditambahkan
+            document.getElementById("nama-pelanggan").value = "";
+            document.getElementById("kontak-pelanggan").value = "";
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaksi Penjualan - Abil's Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+        }
+        label, select, input, button {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin: 5px 0;
+            padding: 10px;
+            border-left: 5px solid #28a745;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Transaksi Penjualan - Abil's Store</h1>
+
+    <h3>1. Pilih Pelanggan</h3>
+    <label for="nama-pelanggan">Nama Pelanggan:</label>
+    <input type="text" id="nama-pelanggan" placeholder="Masukkan nama pelanggan">
+
+    <h3>2. Pilih Barang</h3>
+    <label for="barang">Pilih Barang:</label>
+    <select id="barang">
+        <option value="Beras - Rp12.000/kg">Beras - Rp12.000/kg</option>
+        <option value="Gula - Rp14.000/kg">Gula - Rp14.000/kg</option>
+        <option value="Minyak Goreng - Rp20.000/liter">Minyak Goreng - Rp20.000/liter</option>
+        <option value="Mie Instan - Rp3.500">Mie Instan - Rp3.500</option>
+        <option value="Teh - Rp8.000">Teh - Rp8.000</option>
+    </select>
+
+    <h3>3. Jumlah Pembelian</h3>
+    <label for="jumlah">Jumlah:</label>
+    <input type="number" id="jumlah" placeholder="Masukkan jumlah" min="1">
+
+    <h3>4. Metode Pembayaran</h3>
+    <label for="pembayaran">Metode Pembayaran:</label>
+    <select id="pembayaran">
+        <option value="Tunai">Tunai</option>
+        <option value="Debit">Debit</option>
+        <option value="Kredit">Kredit</option>
+        <option value="E-Wallet">E-Wallet</option>
+    </select>
+
+    <button onclick="prosesTransaksi()">Proses Transaksi</button>
+
+    <h3>Daftar Transaksi:</h3>
+    <ul id="daftar-transaksi"></ul>
+
+    <script>
+        function prosesTransaksi() {
+            const pelanggan = document.getElementById("nama-pelanggan").value.trim();
+            const barang = document.getElementById("barang").value;
+            const jumlah = document.getElementById("jumlah").value;
+            const pembayaran = document.getElementById("pembayaran").value;
+
+            if (pelanggan === "" || jumlah === "" || jumlah <= 0) {
+                alert("Harap masukkan semua data dengan benar!");
+                return;
+            }
+
+            const daftarTransaksi = document.getElementById("daftar-transaksi");
+            const li = document.createElement("li");
+            li.textContent = `${pelanggan} membeli ${jumlah}x ${barang} - Metode: ${pembayaran}`;
+            daftarTransaksi.appendChild(li);
+
+            // Reset input setelah transaksi
+            document.getElementById("nama-pelanggan").value = "";
+            document.getElementById("jumlah").value = "";
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Produk - Abil's Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+        }
+        input, button {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 5px solid #007bff;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Cari Informasi Produk</h1>
+
+    <label for="cari-produk">Masukkan Nama Produk:</label>
+    <input type="text" id="cari-produk" placeholder="Contoh: Beras, Mie Instan">
+    <button onclick="cariProduk()">Cari Produk</button>
+
+    <h3>Hasil Pencarian:</h3>
+    <ul id="hasil-pencarian"></ul>
+
+    <script>
+        const daftarProduk = [
+            "Beras - Rp12.000/kg",
+            "Gula - Rp14.000/kg",
+            "Minyak Goreng - Rp20.000/liter",
+            "Roti - Rp15.000",
+            "Biskuit - Rp10.000",
+            "Mie Instan - Rp3.500",
+            "Teh - Rp8.000",
+            "Kopi - Rp12.000",
+            "Jus - Rp15.000",
+            "Sapu - Rp25.000",
+            "Pel - Rp30.000",
+            "Sabun Cuci - Rp10.000"
+        ];
+
+        function cariProduk() {
+            const input = document.getElementById("cari-produk").value.toLowerCase();
+            const hasilPencarian = document.getElementById("hasil-pencarian");
+            hasilPencarian.innerHTML = ""; 
+
+            const hasil = daftarProduk.filter(produk => produk.toLowerCase().includes(input));
+
+            if (hasil.length > 0) {
+                hasil.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    hasilPencarian.appendChild(li);
+                });
+            } else {
+                hasilPencarian.innerHTML = "<li>Produk tidak ditemukan.</li>";
+            }
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Faktur Penjualan - Abil's Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        button {
+            margin: 10px 0;
+            padding: 8px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Laporan Faktur Penjualan</h1>
+
+    <table id="tabel-faktur">
+        <thead>
+            <tr>
+                <th>No. Faktur</th>
+                <th>Nama Pelanggan</th>
+                <th>Produk</th>
+                <th>Jumlah</th>
+                <th>Total Harga</th>
+                <th>Tanggal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Faktur akan ditampilkan di sini -->
+        </tbody>
+    </table>
+
+    <button onclick="cetakLaporan()">Cetak Laporan</button>
+
+    <script>
+        const fakturData = [
+            { faktur: "INV001", pelanggan: "Melisa", produk: "Beras", jumlah: 5, total: "Rp60.000", tanggal: "2025-03-25" },
+            { faktur: "INV002", pelanggan: "Naya", produk: "Minyak Goreng", jumlah: 2, total: "Rp40.000", tanggal: "2025-03-24" },
+            { faktur: "INV003", pelanggan: "Zifa", produk: "Mie Instan", jumlah: 10, total: "Rp35.000", tanggal: "2025-03-23" }
+        ];
+
+        function tampilkanFaktur() {
+            const tabelBody = document.querySelector("#tabel-faktur tbody");
+            tabelBody.innerHTML = ""; 
+
+            fakturData.forEach(data => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${data.faktur}</td>
+                    <td>${data.pelanggan}</td>
+                    <td>${data.produk}</td>
+                    <td>${data.jumlah}</td>
+                    <td>${data.total}</td>
+                    <td>${data.tanggal}</td>
+                `;
+                tabelBody.appendChild(row);
+            });
+        }
+
+        function cetakLaporan() {
+            window.print();
+        }
+
+        window.onload = tampilkanFaktur;
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekapitulasi Penjualan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            color: #333;
+        }
+        label, select, input, button {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .rekap-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rekapitulasi Penjualan</h1>
+    
+    <label for="tanggal">Pilih Tanggal:</label>
+    <input type="date" id="tanggal">
+    
+    <button onclick="tampilkanRekap()">Tampilkan Rekap</button>
+    
+    <div class="rekap-section" id="rekap-harian">
+        <h3>Rekap Harian</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Jumlah Transaksi</th>
+                    <th>Total Pendapatan</th>
+                </tr>
+            </thead>
+            <tbody id="tabel-harian"></tbody>
+        </table>
+    </div>
+
+    <div class="rekap-section" id="rekap-bulanan">
+        <h3>Rekap Bulanan</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Bulan</th>
+                    <th>Jumlah Transaksi</th>
+                    <th>Total Pendapatan</th>
+                </tr>
+            </thead>
+            <tbody id="tabel-bulanan"></tbody>
+        </table>
+    </div>
+
+    <div class="rekap-section" id="rekap-tahunan">
+        <h3>Rekap Tahunan</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tahun</th>
+                    <th>Jumlah Transaksi</th>
+                    <th>Total Pendapatan</th>
+                </tr>
+            </thead>
+            <tbody id="tabel-tahunan"></tbody>
+        </table>
+    </div>
+
+    <script>
+        const dataPenjualan = [
+            { tanggal: "2025-03-25", jumlah: 5, pendapatan: 200000 },
+            { tanggal: "2025-03-26", jumlah: 8, pendapatan: 350000 },
+            { tanggal: "2025-02-01", jumlah: 15, pendapatan: 500000 },
+            { tanggal: "2024-12-31", jumlah: 20, pendapatan: 800000 },
+        ];
+
+        function tampilkanRekap() {
+            const tanggalInput = document.getElementById("tanggal").value;
+            const date = new Date(tanggalInput);
+            if (!tanggalInput) {
+                alert("Harap pilih tanggal terlebih dahulu!");
+                return;
+            }
+
+            // Kosongkan tabel sebelum mengisi ulang
+            document.getElementById("tabel-harian").innerHTML = "";
+            document.getElementById("tabel-bulanan").innerHTML = "";
+            document.getElementById("tabel-tahunan").innerHTML = "";
+
+            let bulan = date.getMonth() + 1;
+            let tahun = date.getFullYear();
+
+            let totalBulanan = 0, totalTahunan = 0;
+            let jumlahBulanan = 0, jumlahTahunan = 0;
+
+            let dataHarian = dataPenjualan.find(data => data.tanggal === tanggalInput);
+            if (dataHarian) {
+                document.getElementById("rekap-harian").style.display = "block";
+                document.getElementById("tabel-harian").innerHTML = `<tr>
+                    <td>${dataHarian.tanggal}</td>
+                    <td>${dataHarian.jumlah}</td>
+                    <td>Rp${dataHarian.pendapatan.toLocaleString()}</td>
+                </tr>`;
+            } else {
+                document.getElementById("rekap-harian").style.display = "none";
+            }
+
+            let dataBulanan = dataPenjualan.filter(data => {
+                let dataDate = new Date(data.tanggal);
+                return dataDate.getMonth() + 1 === bulan && dataDate.getFullYear() === tahun;
+            });
+
+            if (dataBulanan.length > 0) {
+                document.getElementById("rekap-bulanan").style.display = "block";
+                dataBulanan.forEach(data => {
+                    jumlahBulanan += data.jumlah;
+                    totalBulanan += data.pendapatan;
+                });
+                document.getElementById("tabel-bulanan").innerHTML = `<tr>
+                    <td>${bulan}/${tahun}</td>
+                    <td>${jumlahBulanan}</td>
+                    <td>Rp${totalBulanan.toLocaleString()}</td>
+                </tr>`;
+            } else {
+                document.getElementById("rekap-bulanan").style.display = "none";
+            }
+
+            let dataTahunan = dataPenjualan.filter(data => new Date(data.tanggal).getFullYear() === tahun);
+            if (dataTahunan.length > 0) {
+                document.getElementById("rekap-tahunan").style.display = "block";
+                dataTahunan.forEach(data => {
+                    jumlahTahunan += data.jumlah;
+                    totalTahunan += data.pendapatan;
+                });
+                document.getElementById("tabel-tahunan").innerHTML = `<tr>
+                    <td>${tahun}</td>
+                    <td>${jumlahTahunan}</td>
+                    <td>Rp${totalTahunan.toLocaleString()}</td>
+                </tr>`;
+            } else {
+                document.getElementById("rekap-tahunan").style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
